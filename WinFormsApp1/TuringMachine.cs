@@ -24,7 +24,7 @@ namespace WinFormsApp1
 
 
 
-    public record TapeEvent(char Input, TDirection TapeDirection, TapeHead TapeHead, TState FromState, TState ToState);
+    public record TapeEvent(char Input, char Output, TDirection TapeDirection, TapeHead TapeHead, TState FromState, TState ToState);
 
 
 
@@ -100,8 +100,8 @@ namespace WinFormsApp1
             Tape[TapeHead.Position] = output.CharacterToBeWrittenOnTape;
             var currentPosition = TapeHead.Position;
             var next = currentPosition - 1;
+            var e = new TapeEvent(character, output.CharacterToBeWrittenOnTape, output.DirectionOnTape, TapeHead, GetCurrentState(), output.State);
             TapeHead = TapeHead with { Symbol = Tape[next], Position = next, Direction = TDirection.L, PreviousPosition = currentPosition };
-            var e = new TapeEvent(character, output.DirectionOnTape, TapeHead, GetCurrentState(), output.State);
             CurrentState = output.State;
             return e;
         }
@@ -112,8 +112,8 @@ namespace WinFormsApp1
             Tape[TapeHead.Position] = output.CharacterToBeWrittenOnTape;
             var currentPosition = TapeHead.Position;
             var next = currentPosition + 1;
+            var e = new TapeEvent(character, output.CharacterToBeWrittenOnTape, output.DirectionOnTape, TapeHead, GetCurrentState(), output.State);
             TapeHead = TapeHead with { Symbol = Tape[next], Position = next, Direction = TDirection.R, PreviousPosition = currentPosition };
-            var e = new TapeEvent(character, output.DirectionOnTape, TapeHead, GetCurrentState(), output.State);
             CurrentState = output.State;
             return e;
         }
@@ -124,8 +124,8 @@ namespace WinFormsApp1
             Tape[TapeHead.Position] = output.CharacterToBeWrittenOnTape;
             var currentPosition = TapeHead.Position;
             var next = currentPosition + 0;
+            var e = new TapeEvent(character, output.CharacterToBeWrittenOnTape, output.DirectionOnTape, TapeHead, GetCurrentState(), output.State);
             TapeHead = TapeHead with { Symbol = Tape[next], Position = next, Direction = TDirection.S, PreviousPosition = currentPosition };
-            var e = new TapeEvent(character, output.DirectionOnTape, TapeHead, GetCurrentState(), output.State);
             CurrentState = output.State;
             return e;
         }
@@ -166,7 +166,10 @@ namespace WinFormsApp1
         public TapeHead GetTapeHead() => TapeHead;
 
 
+
         public TapeEvent? GetLastMovement() => Events.LastOrDefault();
+
+
 
 
 
@@ -214,7 +217,9 @@ namespace WinFormsApp1
             }
         }
 
+
         public char[] GetTape() => Tape;
+
 
 
         public MachineOutput GetOutput()

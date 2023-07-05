@@ -1,4 +1,6 @@
-﻿namespace WinFormsApp1
+﻿using System;
+
+namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
@@ -20,11 +22,12 @@
             Write((char)e.KeyCode);
         }
 
-        private void Reset()
+        private void Reset(object sender, EventArgs e)
         {
             textBox1.ResetText();
             textBox1.Clear();
             machine = TuringMachine.CreateTuringMachineForAnagramAndOrPalindromeOfRacecar();
+            textBox1.Enabled = true;
             ResetCells();
         }
 
@@ -40,7 +43,13 @@
                 richTextBox2.Text = output.TapeOutput;
                 richTextBox3.Text = output.StateLabel.ToUpper();
                 richTextBox4.Text = output.AcceptedOrRejected;
-                //Reset();
+                textBox1.Enabled = false;
+                var movement = machine.GetLastMovement();
+                if (movement != null)
+                {
+                    var currentTapeCellControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(movement.TapeHead.Position, 1), false).First();
+                    currentTapeCellControl.BackColor = machine.GetCurrentState().Accept ? Color.FromArgb(75, 153, 88) : Color.FromArgb(153, 75, 75);
+                }
             }
             else
             {
@@ -55,8 +64,8 @@
             var tape = machine.GetTape();
             for (int x = 0; x < tape.Length; x++)
             {
-                tableLayoutPanel1.Controls.Add(new Label() { Name = $"C{x}R0", Text = "", Width = 20, Height = 20 }, x, 0);
-                tableLayoutPanel1.Controls.Add(new Label() { Name = $"C{x}R1", Text = tape[x].ToString(), Width = 20, Height = 20 }, x, 1);
+                tableLayoutPanel1.Controls.Add(new Label() { Name = $"C{x}R0", Text = "", Width = 50, Height = 50, TextAlign = ContentAlignment.MiddleCenter }, x, 0);
+                tableLayoutPanel1.Controls.Add(new Label() { Name = $"C{x}R1", Text = tape[x].ToString(), Width = 50, Height = 50, BackColor = Color.FromArgb(165, 165, 165), TextAlign = ContentAlignment.MiddleCenter }, x, 1);
             }
             var control = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().Position), false).First();
             control.Text = "↓";
@@ -70,20 +79,21 @@
 
         private void Render()
         {
-            var movement = machine.GetLastMovement();
-            var tapeHead = movement?.TapeHead;
-            if (tapeHead != null)
+            var tEvent = machine.GetLastMovement();
+            var tapeHead = tEvent?.TapeHead;
+            var tape = machine.GetTape();
+            if (tapeHead != null && tEvent != null)
             {
-                var previousTapeHeadControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().PreviousPosition), false).First();
-                var currentTapeHeadControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().Position), false).First();
-                var currentTapeCellControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().Position, 1), false).First();
+                var previousTapeHeadControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(tapeHead.PreviousPosition), false).First();
+                var currentTapeHeadControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(tapeHead.Position), false).First();
+                var currentTapeCellControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(tapeHead.Position, 1), false).First();
                 previousTapeHeadControl.Text = "";
                 currentTapeHeadControl.Text = "↓";
-                currentTapeCellControl.Text = movement?.Input.ToString();
-                switch (machine.GetTapeHead().Direction)
+                currentTapeCellControl.Text = tape[(int)tapeHead.Position].ToString();
+                switch (tEvent.TapeDirection)
                 {
                     case TDirection.S:
-                        tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 0;
+                        tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 50;
                         break;
                     case TDirection.R:
                         tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 50;
@@ -100,8 +110,21 @@
 
         private void ResetCells()
         {
-            tableLayoutPanel1.Controls.Clear();
-            LoadTape();
+            var tape = machine.GetTape();
+            for (int x = 0; x < tape.Length; x++)
+            {
+                tableLayoutPanel1.Controls.Find($"C{x}R0", false).LastOrDefault().Text = "";
+                tableLayoutPanel1.Controls.Find($"C{x}R1", false).LastOrDefault().Text = tape[x].ToString();
+                tableLayoutPanel1.Controls.Find($"C{x}R1", false).LastOrDefault().BackColor = Color.FromArgb(165, 165, 165);
+            }
+            var control = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().Position), false).First();
+            control.Text = "↓";
+            tableLayoutPanel1.HorizontalScroll.Value = 0;
+            tableLayoutPanel1.HorizontalScroll.Visible = false;
+            tableLayoutPanel1.VerticalScroll.Visible = false;
+            tableLayoutPanel1.HorizontalScroll.Enabled = false;
+            tableLayoutPanel1.ScrollControlIntoView(control);
+            tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 250;
         }
 
 

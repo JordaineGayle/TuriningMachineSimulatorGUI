@@ -41,6 +41,7 @@
             richTextBox4 = new RichTextBox();
             label3 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
+            button1 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -59,9 +60,10 @@
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Location = new Point(17, 67);
             textBox1.Margin = new Padding(0);
+            textBox1.MinimumSize = new Size(0, 40);
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Enter input here and press enter to submit";
-            textBox1.Size = new Size(509, 20);
+            textBox1.Size = new Size(352, 40);
             textBox1.TabIndex = 1;
             textBox1.KeyUp += OnUserInput;
             // 
@@ -281,12 +283,29 @@
             tableLayoutPanel1.Size = new Size(510, 121);
             tableLayoutPanel1.TabIndex = 41;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(153, 75, 75);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(369, 67);
+            button1.Margin = new Padding(0);
+            button1.Name = "button1";
+            button1.Size = new Size(157, 40);
+            button1.TabIndex = 42;
+            button1.Text = "Reset";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += Reset;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(207, 207, 207);
             ClientSize = new Size(558, 773);
+            Controls.Add(button1);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(richTextBox4);
             Controls.Add(label3);
@@ -321,5 +340,6 @@
         private RichTextBox richTextBox4;
         private Label label3;
         private TableLayoutPanel tableLayoutPanel1;
+        private Button button1;
     }
 }
