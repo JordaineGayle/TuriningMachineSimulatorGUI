@@ -10,19 +10,6 @@
             InitializeComponent();
         }
 
-
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadTape();
@@ -33,25 +20,12 @@
             Write((char)e.KeyCode);
         }
 
-
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label23_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
         private void Reset()
         {
             textBox1.ResetText();
             textBox1.Clear();
             machine = TuringMachine.CreateTuringMachineForAnagramAndOrPalindromeOfRacecar();
-            LoadTape();
+            ResetCells();
         }
 
 
@@ -60,32 +34,21 @@
             var hasMoreCharacter = machine.Write(character);
             if (hasMoreCharacter is not true)
             {
-                machine.ProcessTape();
+                machine.ProcessTape(Render);
                 var output = machine.GetOutput();
                 richTextBox1.Text = output.UserInput;
                 richTextBox2.Text = output.TapeOutput;
                 richTextBox3.Text = output.StateLabel.ToUpper();
                 richTextBox4.Text = output.AcceptedOrRejected;
-                Reset();
+                //Reset();
             }
-            Render();
+            else
+            {
+
+                Render();
+            }
 
         }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
 
         private void LoadTape()
         {
@@ -107,25 +70,26 @@
 
         private void Render()
         {
-            var tapeHead = machine.GetLastMovement()?.TapeHead;
-            if(tapeHead != null)
+            var movement = machine.GetLastMovement();
+            var tapeHead = movement?.TapeHead;
+            if (tapeHead != null)
             {
-                var previousTapeHeadControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(tapeHead.PreviousPosition), false).First();
-                var currentTapeHeadControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(tapeHead.Position), false).First();
-                var currentTapeCellControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(tapeHead.Position, 1), false).First();
+                var previousTapeHeadControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().PreviousPosition), false).First();
+                var currentTapeHeadControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().Position), false).First();
+                var currentTapeCellControl = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().Position, 1), false).First();
                 previousTapeHeadControl.Text = "";
                 currentTapeHeadControl.Text = "↓";
-                currentTapeCellControl.Text = "a";
-                switch (tapeHead.Direction)
+                currentTapeCellControl.Text = movement?.Input.ToString();
+                switch (machine.GetTapeHead().Direction)
                 {
                     case TDirection.S:
                         tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 0;
                         break;
                     case TDirection.R:
-                        tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 20;
+                        tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 50;
                         break;
                     case TDirection.L:
-                        tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value - 20;
+                        tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value - 50;
                         break;
                     default:
                         throw new NotImplementedException();
@@ -134,9 +98,14 @@
         }
 
 
+        private void ResetCells()
+        {
+            tableLayoutPanel1.Controls.Clear();
+            LoadTape();
+        }
+
+
         private string GetTableCellLabelName(long pos, int row = 0) => $"C{pos}R{row}";
-
-
 
     }
 }

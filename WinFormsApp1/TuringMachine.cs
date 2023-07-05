@@ -182,9 +182,15 @@ namespace WinFormsApp1
                 input = new TInput(GetCurrentState(), character);
                 output = TransitionFunction(TransitionRules, input);
                 UserInput = new string(TapeStream.Replace(character, '\0'));
-            }
+                TapeStream += $"{character}";
 
-            if (output != null)
+                if (output != null)
+                {
+                    var res = Write(character, output);
+                    Events.Add(res);
+                }
+            }
+            else if (output != null)
             {
                 TapeStream += $"{character}";
                 var res = Write(character, output);
@@ -197,12 +203,14 @@ namespace WinFormsApp1
 
 
 
-        public void ProcessTape()
+        public void ProcessTape(Action render)
         {
             var moreInputToRead = Write(TapeHead.Symbol);
+            render();
             while (moreInputToRead)
             {
                 moreInputToRead = Write(TapeHead.Symbol);
+                render();
             }
         }
 
