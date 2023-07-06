@@ -318,6 +318,9 @@
             Controls.Add(button2);
             Controls.Add(textBox1);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form1";
             Text = "Racecar Turing Machine Simulator";
             Load += Form1_Load;

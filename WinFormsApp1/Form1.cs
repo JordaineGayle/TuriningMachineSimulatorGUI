@@ -113,9 +113,9 @@ namespace WinFormsApp1
             var tape = machine.GetTape();
             for (int x = 0; x < tape.Length; x++)
             {
-                tableLayoutPanel1.Controls.Find($"C{x}R0", false).LastOrDefault().Text = "";
-                tableLayoutPanel1.Controls.Find($"C{x}R1", false).LastOrDefault().Text = tape[x].ToString();
-                tableLayoutPanel1.Controls.Find($"C{x}R1", false).LastOrDefault().BackColor = Color.FromArgb(165, 165, 165);
+                tableLayoutPanel1.Controls.Find($"C{x}R0", false).LastOrDefault()!.Text = "";
+                tableLayoutPanel1.Controls.Find($"C{x}R1", false).LastOrDefault()!.Text = tape[x].ToString();
+                tableLayoutPanel1.Controls.Find($"C{x}R1", false).LastOrDefault()!.BackColor = Color.FromArgb(165, 165, 165);
             }
             var control = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().Position), false).First();
             control.Text = "↓";
