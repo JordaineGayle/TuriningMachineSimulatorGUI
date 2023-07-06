@@ -42,6 +42,7 @@
             label3 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             button1 = new Button();
+            listBox1 = new ListBox();
             SuspendLayout();
             // 
             // label1
@@ -69,7 +70,8 @@
             // 
             // button2
             // 
-            button2.BackColor = Color.FromArgb(40, 203, 255);
+            button2.BackColor = Color.Gray;
+            button2.Enabled = false;
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
@@ -80,6 +82,7 @@
             button2.TabIndex = 3;
             button2.Text = "View Transitions";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += ViewTransitions;
             // 
             // label5
             // 
@@ -299,12 +302,24 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += Reset;
             // 
+            // listBox1
+            // 
+            listBox1.BorderStyle = BorderStyle.None;
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 20;
+            listBox1.Location = new Point(17, 37);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(225, 700);
+            listBox1.TabIndex = 44;
+            listBox1.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(207, 207, 207);
             ClientSize = new Size(558, 773);
+            Controls.Add(listBox1);
             Controls.Add(button1);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(richTextBox4);
@@ -344,5 +359,6 @@
         private Label label3;
         private TableLayoutPanel tableLayoutPanel1;
         private Button button1;
+        private ListBox listBox1;
     }
 }

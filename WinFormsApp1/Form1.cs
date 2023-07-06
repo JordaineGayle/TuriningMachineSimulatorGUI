@@ -6,21 +6,29 @@ namespace WinFormsApp1
     {
         TuringMachine machine;
 
+
+
         public Form1()
         {
             machine = TuringMachine.CreateTuringMachineForAnagramAndOrPalindromeOfRacecar();
             InitializeComponent();
         }
 
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadTape();
         }
 
+
+
         private void OnUserInput(object? sender, KeyEventArgs e)
         {
             Write((char)e.KeyCode);
         }
+
+
 
         private void Reset(object sender, EventArgs e)
         {
@@ -28,8 +36,23 @@ namespace WinFormsApp1
             textBox1.Clear();
             machine = TuringMachine.CreateTuringMachineForAnagramAndOrPalindromeOfRacecar();
             textBox1.Enabled = true;
+            button2.Enabled = false;
             ResetCells();
         }
+
+
+
+        private void ViewTransitions(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            listBox1.Visible = !listBox1.Visible;
+            foreach (var ev in machine.Events)
+            {
+                listBox1.Items.Add(ev.Transition);
+            }
+        }
+
+
 
 
         private void Write(char character)
@@ -44,6 +67,7 @@ namespace WinFormsApp1
                 richTextBox3.Text = output.StateLabel.ToUpper();
                 richTextBox4.Text = output.AcceptedOrRejected;
                 textBox1.Enabled = false;
+                button2.Enabled = true;
                 var movement = machine.GetLastMovement();
                 if (movement != null)
                 {
@@ -53,18 +77,21 @@ namespace WinFormsApp1
             }
             else
             {
-
                 Render();
             }
 
         }
 
+
+
+
         private void LoadTape()
         {
             var tape = machine.GetTape();
+            var font = new Font(DefaultFont.FontFamily.Name, 12, FontStyle.Bold);
             for (int x = 0; x < tape.Length; x++)
             {
-                tableLayoutPanel1.Controls.Add(new Label() { Name = $"C{x}R0", Text = "", Width = 50, Height = 50, TextAlign = ContentAlignment.MiddleCenter }, x, 0);
+                tableLayoutPanel1.Controls.Add(new Label() { Name = $"C{x}R0", Text = "", Width = 50, Height = 50, TextAlign = ContentAlignment.MiddleCenter, Font = font }, x, 0);
                 tableLayoutPanel1.Controls.Add(new Label() { Name = $"C{x}R1", Text = tape[x].ToString(), Width = 50, Height = 50, BackColor = Color.FromArgb(165, 165, 165), TextAlign = ContentAlignment.MiddleCenter }, x, 1);
             }
             var control = tableLayoutPanel1.Controls.Find(GetTableCellLabelName(machine.GetTapeHead().Position), false).First();
@@ -75,6 +102,8 @@ namespace WinFormsApp1
             tableLayoutPanel1.ScrollControlIntoView(control);
             tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 250;
         }
+
+
 
 
         private void Render()
@@ -108,6 +137,8 @@ namespace WinFormsApp1
         }
 
 
+
+
         private void ResetCells()
         {
             var tape = machine.GetTape();
@@ -126,6 +157,9 @@ namespace WinFormsApp1
             tableLayoutPanel1.ScrollControlIntoView(control);
             tableLayoutPanel1.HorizontalScroll.Value = tableLayoutPanel1.HorizontalScroll.Value + 250;
         }
+
+
+
 
 
         private string GetTableCellLabelName(long pos, int row = 0) => $"C{pos}R{row}";

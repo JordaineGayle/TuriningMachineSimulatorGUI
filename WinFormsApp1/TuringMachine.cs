@@ -24,7 +24,10 @@ namespace WinFormsApp1
 
 
 
-    public record TapeEvent(char Input, char Output, TDirection TapeDirection, TapeHead TapeHead, TState FromState, TState ToState);
+    public record TapeEvent(char Input, char Output, TDirection TapeDirection, TapeHead TapeHead, TState FromState, TState ToState)
+    {
+        public string Transition => $"({FromState.Label}, {Input}) → ({ToState.Label} | {Output}, {TapeDirection})";
+    }
 
 
 
@@ -82,7 +85,9 @@ namespace WinFormsApp1
 
 
 
+
         TapeHead TapeHead = new TapeHead('ϵ', 50, 50, TDirection.S);
+
 
 
 
@@ -93,6 +98,8 @@ namespace WinFormsApp1
             TDirection.S => Stay(inputCharacter, output),
             _ => throw new NotImplementedException(),
         };
+
+
 
 
         TapeEvent WriteLeft(char character, TOutput output)
@@ -107,6 +114,7 @@ namespace WinFormsApp1
         }
 
 
+
         TapeEvent WriteRight(char character, TOutput output)
         {
             Tape[TapeHead.Position] = output.CharacterToBeWrittenOnTape;
@@ -117,6 +125,8 @@ namespace WinFormsApp1
             CurrentState = output.State;
             return e;
         }
+
+
 
 
         TapeEvent Stay(char character, TOutput output)
@@ -140,7 +150,9 @@ namespace WinFormsApp1
         }
 
 
+
         public TState StartState => States.First(x => x.Initial);
+
 
 
 
@@ -163,7 +175,9 @@ namespace WinFormsApp1
         public TState GetCurrentState() => CurrentState == null ? StartState : CurrentState;
 
 
+
         public TapeHead GetTapeHead() => TapeHead;
+
 
 
 
