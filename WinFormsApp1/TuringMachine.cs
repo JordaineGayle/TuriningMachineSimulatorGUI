@@ -232,6 +232,7 @@ namespace WinFormsApp1
         }
 
 
+
         public char[] GetTape() => Tape;
 
 
@@ -276,6 +277,7 @@ namespace WinFormsApp1
                 TransitionRules: transitionRules
                 );
         }
+
 
 
         public static TuringMachine CreateTuringMachineForAnagramAndOrPalindromeOfRacecar()
