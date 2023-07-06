@@ -283,15 +283,81 @@ namespace WinFormsApp1
             var epsilon = 'ϵ';
 
 
+
             var states = new HashSet<TState>()
             {
                 new("q0", TStateType.Initial),
                 new("q1", TStateType.Reject),
-                new("q2", TStateType.Accept)
+                new("q2", TStateType.Reject),
+                new("q3", TStateType.Reject),
+                new("q4", TStateType.Reject),
+                new("q5", TStateType.Reject),
+                new("q6", TStateType.Reject),
+                new("q7", TStateType.Reject),
+                new("q8", TStateType.Reject),
+                new("q9", TStateType.Reject),
+                new("q10", TStateType.Reject),
+                new("q11", TStateType.Reject),
+                new("q12", TStateType.Reject),
+                new("q13", TStateType.Reject),
+                new("q14", TStateType.Reject),
+                new("q15", TStateType.Reject),
+                new("q16", TStateType.Reject),
+                new("q17", TStateType.Reject),
+                new("q18", TStateType.Reject),
+                new("q19", TStateType.Reject),
+                new("q20", TStateType.Reject),
+                new("q21", TStateType.Reject),
+                new("q22", TStateType.Reject),
+                new("q23", TStateType.Reject),
+                new("q24", TStateType.Reject),
+                new("q25", TStateType.Reject),
+                new("q26", TStateType.Reject),
+                new("q27", TStateType.Reject),
+                new("q28", TStateType.Reject),
+                new("q29", TStateType.Reject),
+                new("q30", TStateType.Reject),
+                new("q31", TStateType.Reject),
+                new("q32", TStateType.Reject),
+                new("q33", TStateType.Reject),
+                new("q34", TStateType.Reject),
+                new("q35", TStateType.Reject),
+                new("q36", TStateType.Reject),
+                new("q37", TStateType.Reject),
+                new("q38", TStateType.Reject),
+                new("q39", TStateType.Reject),
+                new("q40", TStateType.Reject),
+                new("q41", TStateType.Reject),
+                new("q42", TStateType.Reject),
+                new("q43", TStateType.Reject),
+                new("q44", TStateType.Reject),
+                new("q45", TStateType.Reject),
+                new("q46", TStateType.Reject),
+                new("q47", TStateType.Reject),
+                new("q48", TStateType.Reject),
+                new("q49", TStateType.Reject),
+                new("q50", TStateType.Reject),
+                new("q51", TStateType.Reject),
+                new("q52", TStateType.Reject),
+                new("q53", TStateType.Reject),
+                new("q54", TStateType.Reject),
+                new("q55", TStateType.Reject),
+                new("q56", TStateType.Reject),
+                new("q57", TStateType.Reject),
+                new("q58", TStateType.Reject),
+                new("q59", TStateType.Reject),
+                new("q60", TStateType.Reject),
+                new("q61", TStateType.Reject),
+                new("q62", TStateType.Reject),
+                new("ANAGRAM", TStateType.Accept),
+                new("PALINDROME", TStateType.Accept),
+                new("BOTH", TStateType.Accept)
             };
 
 
+
             var alphabet = new HashSet<char>() { 'a', 'c', 'e', 'r' };
+
 
 
             var tapeAlphabet = new HashSet<char>() { '$', '#', '1', '2', '3', '4', 'q', 's', 't', 'v', '|', 'x' };
@@ -693,6 +759,7 @@ namespace WinFormsApp1
                 { new(new("q62", TStateType.Reject), 'x'), new(new("q53", TStateType.Reject), 'x', TDirection.R) },
 
             };
+
 
 
             return New(states, alphabet, tapeAlphabet, transitionRules);

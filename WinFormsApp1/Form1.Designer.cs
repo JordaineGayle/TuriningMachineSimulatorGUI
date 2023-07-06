@@ -71,7 +71,6 @@
             // button2
             // 
             button2.BackColor = Color.Gray;
-            button2.Enabled = false;
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);

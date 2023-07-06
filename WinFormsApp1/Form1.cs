@@ -36,7 +36,6 @@ namespace WinFormsApp1
             textBox1.Clear();
             machine = TuringMachine.CreateTuringMachineForAnagramAndOrPalindromeOfRacecar();
             textBox1.Enabled = true;
-            button2.Enabled = false;
             ResetCells();
         }
 
@@ -46,6 +45,7 @@ namespace WinFormsApp1
         {
             listBox1.Items.Clear();
             listBox1.Visible = !listBox1.Visible;
+            button2.Text = listBox1.Visible ? "Close Transitions" : "View Transitions";
             foreach (var ev in machine.Events)
             {
                 listBox1.Items.Add(ev.Transition);
